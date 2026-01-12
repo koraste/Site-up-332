@@ -6,7 +6,6 @@ import {
   Float,
 } from "@react-three/drei";
 
-// ⚠️ ajuste o import abaixo se sua flor tiver outro nome
 import Flower from "./Flower";
 
 export default function Scene() {
@@ -24,46 +23,45 @@ export default function Scene() {
       {/* Luz ambiente base */}
       <ambientLight intensity={0.25} />
 
-      {/* Key Light */}
+      {/* Key Light (sem castShadow -> evita sombra dupla) */}
       <directionalLight
-        castShadow
         position={[4, 6, 2]}
         intensity={2.2}
-        shadow-mapSize-width={2048}
-        shadow-mapSize-height={2048}
       />
 
       {/* Fill Light */}
-      <directionalLight position={[-4, 3, -2]} intensity={0.9} />
+      <directionalLight position={[-3, 2, 3]} intensity={0.6} />
 
       {/* Rim Light */}
-      <directionalLight position={[0, 3, -4]} intensity={0.8} />
+      <directionalLight position={[0, 6, -4]} intensity={0.9} />
 
-      {/* Iluminação global */}
-      <Environment preset="studio" />
+      {/* Ambiente */}
+      <Environment preset="city" />
 
-      {/* Sombra premium */}
+      {/* Sombras suaves (premium) */}
       <AccumulativeShadows
         temporal
-        frames={80}
-        opacity={0.65}
-        scale={10}
-        position={[0, -1.1, 0]}
+        frames={60}
+        alphaTest={0.9}
+        scale={12}
+        position={[0, -1.45, 0]}
       >
         <RandomizedLight
           amount={8}
-          radius={4}
-          ambient={0.35}
+          radius={6}
+          ambient={0.5}
           intensity={1.2}
-          position={[5, 6, 2]}
+          position={[5, 8, 2]}
         />
       </AccumulativeShadows>
 
-      {/* Flor com leve movimento orgânico */}
-      <Float speed={1.1} rotationIntensity={0.25} floatIntensity={0.35}>
-        <group position={[0, -0.2, 0]}>
-          <Flower />
-        </group>
+      {/* Flor */}
+      <Float
+        speed={1.1}
+        rotationIntensity={0.25}
+        floatIntensity={0.35}
+      >
+        <Flower />
       </Float>
     </>
   );
