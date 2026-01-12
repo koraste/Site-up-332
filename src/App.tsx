@@ -1,29 +1,21 @@
-import { useState } from 'react';
-import Scene from './components/Scene';
-import OverlayUI from './components/OverlayUI';
+import { Canvas } from "@react-three/fiber";
+import { Suspense } from "react";
+import Scene from "./Scene";
 
-const presets = ['A', 'B', 'C'] as const;
-
-function App() {
-  const [presetIndex, setPresetIndex] = useState(0);
-  const [isTransitioning, setIsTransitioning] = useState(false);
-
-  const handleAdvance = () => {
-    setPresetIndex((prev) => (prev + 1) % presets.length);
-  };
-
+export default function App() {
   return (
-    <div style={{ width: '100%', height: '100%', position: 'relative' }}>
-      <Scene
-        presetIndex={presetIndex}
-        isTransitioning={isTransitioning}
-        onTransitionStart={() => setIsTransitioning(true)}
-        onAdvancePreset={handleAdvance}
-        onTransitionEnd={() => setIsTransitioning(false)}
-      />
-      <OverlayUI isTransitioning={isTransitioning} />
+    <div style={{ width: "100vw", height: "100vh", background: "#07070a" }}>
+      <Canvas
+        shadows
+        dpr={[1, 2]}
+        camera={{ position: [0, 1, 3.2], fov: 42 }}
+        gl={{ antialias: true }}
+      >
+        <color attach="background" args={["#07070a"]} />
+        <Suspense fallback={null}>
+          <Scene />
+        </Suspense>
+      </Canvas>
     </div>
   );
 }
-
-export default App;
